@@ -1,19 +1,38 @@
-"repositories": [
-    {
-        "type": "package",
-        "package": {
-            "name": "dekor/php-array-table",
-            "version": "dev-master",
-            "source": {
-                "url": "git://git@github.com:deniskoronets/php-array-table.git",
-                "type": "git",
-                "reference": "master"
-            },
-            "autoload": {
-                "psr-0" : {
-                    "Dekor" : "src"
+{
+    "name": "dekor/php-array-table",
+    "description": "PHP Library for printing associative arrays as text table (similar to mysql terminal console)",
+    "keywords": [
+        "php",
+        "library"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Denis Koronets",
+            "email": "deniskoronets@woo.zp.ua",
+            "homepage": "http://woo.zp.ua/",
+        },
+    ],
+    "require": {
+        "php": ">=5.4.0",
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "dekor/php-array-table",
+                "version": "dev-master",
+                "source": {
+                    "url": "git://git@github.com:deniskoronets/php-array-table.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "psr-0" : {
+                        "Dekor" : "src"
+                    }
                 }
             }
         }
-    }
-],
+    ],
+}
