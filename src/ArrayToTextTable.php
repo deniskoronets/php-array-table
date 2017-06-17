@@ -1,5 +1,7 @@
 <?php
 
+namespace Dekor;
+
 class ArrayToTextTable
 {
     private $data;
