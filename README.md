@@ -32,7 +32,7 @@ $data = [
     ]
 ];
 
-echo (new  ArrayToTextTable($data))->render();
+echo (new ArrayToTextTable($data))->render();
 </pre>
 
 Will draw the next output:
