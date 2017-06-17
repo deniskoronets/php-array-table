@@ -1,7 +1,15 @@
 # PHP Array To Text Table
 
-Class, which allows to make text tables. Sample:
+PHP-class, which allows to transform php associative arrays to cool ASCII tables.
 
+## Installation
+Simply run composer require:
+<pre>composer require dekor/php-array-table</pre>
+
+or add to composer.json:
+<pre>"dekor/php-array-table": "@dev"</pre>
+
+## Usage
 <pre>&lt;?php
 
 use dekor\ArrayToTextTable;
