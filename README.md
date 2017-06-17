@@ -25,7 +25,11 @@ $data = [
 ];
 
 echo (new  ArrayToTextTable($data))->render();
+</pre>
 
+Will draw the next output:
+
+<pre>
 +----+-----------------+----------------+
 | id | name            | role           |
 +----+-----------------+----------------+
