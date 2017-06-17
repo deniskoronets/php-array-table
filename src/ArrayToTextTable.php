@@ -2,6 +2,9 @@
 
 namespace Dekor;
 
+/**
+ * @author Denis Koronets
+ */
 class ArrayToTextTable
 {
     private $data;
