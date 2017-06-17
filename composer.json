@@ -11,7 +11,7 @@
             "name": "Denis Koronets",
             "email": "deniskoronets@woo.zp.ua",
             "homepage": "http://woo.zp.ua/"
-        },
+        }
     ],
     "require": {
         "php": ">=5.4.0"
