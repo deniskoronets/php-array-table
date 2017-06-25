@@ -7,42 +7,91 @@ namespace Dekor;
  */
 class ArrayToTextTable
 {
+    /**
+     * @var array
+     */
     private $data;
 
+    /**
+     * @var array
+     */
     private $columnsList = [];
 
+    /**
+     * @var int
+     */
+    private $maxLineLength = 40;
+
+    /**
+     * @var array
+     */
     private $columnsLength = [];
 
-    private $totalLength = 0;
-
+    /**
+     * @var array
+     */
     private $result = [];
+
+    /**
+     * @var string
+     */
+    private $charset = 'UTF-8';
+
+    /**
+     * @var bool
+     */
+    private $renderHeader = true;
+
 
     public function __construct(array $data)
     {
         $this->data = $data;
     }
 
-    public function calcColumnsList()
+    /**
+     * Calculates list of columns in data
+     */
+    protected function calcColumnsList()
     {
         $this->columnsList = array_keys($this->data[0]);
     }
 
-    public function calcColumnsLength()
+    /**
+     * Calculates length for string
+     */
+    protected function length($str)
+    {
+        return mb_strlen($str, $this->charset);
+    }
+
+    /**
+     * Calculate maximum string length for each column
+     */
+    private function calcColumnsLength()
     {
         foreach ($this->data as $row) {
+
+            if ($row === '---') {
+                continue;
+            }
+
             foreach ($this->columnsList as $column) {
+
                 $this->columnsLength[$column] = max(
-                    isset($this->columnsLength[$column]) ? $this->columnsLength[$column] : 0,
-                    strlen($row[$column]),
-                    strlen($column)
+                    isset($this->columnsLength[$column])
+                        ? $this->columnsLength[$column]
+                        : 0,
+                    $this->length($row[$column]),
+                    $this->length($column)
                 );
             }
         }
-
-        $this->totalLength = array_sum($this->columnsLength);
     }
 
-    public function lineSeparator()
+    /**
+     * Append a line separator to result
+     */
+    private function lineSeparator()
     {
         $tmp = '';
 
@@ -53,14 +102,30 @@ class ArrayToTextTable
         $this->result[] = $tmp;
     }
 
-    public function renderHeader()
+    /**
+     * @return string
+     */
+    private function column($columnKey, $value)
+    {
+        return '| ' . $value . ' ' . str_repeat(' ', $this->columnsLength[$columnKey] - $this->length($value)) . '|';
+    }
+
+    /**
+     * Render header part
+     * @return void
+     */
+    private function renderHeader()
     {
         $this->lineSeparator();
+
+        if (!$this->renderHeader) {
+            return;
+        }
 
         $tmp = '';
 
         foreach ($this->columnsList as $column) {
-            $tmp .= '| ' . $column . ' ' . str_repeat(' ', $this->columnsLength[$column] - strlen($column)) . '|';
+            $tmp .= $this->column($column, $column);
         }
 
         $this->result[] = $tmp;
@@ -68,6 +133,78 @@ class ArrayToTextTable
         $this->lineSeparator();
     }
 
+    /**
+     * Render body section of table
+     * @return void
+     */
+    private function renderBody()
+    {
+        foreach ($this->data as $row) {
+
+            if ($row === '---') {
+                $this->lineSeparator();
+                continue;
+            }
+
+            $tmp = '';
+
+            foreach ($this->columnsList as $column) {
+                $tmp .= $this->column($column, $row[$column]);
+            }
+
+            $this->result[] = $tmp;
+        }
+    }
+
+    /**
+     * Set custom charset for columns values
+     * @return self
+     */
+    public function charset($charset)
+    {
+        if (!in_array($charset, mb_list_encodings())) {
+            throw new \Exception(
+                'This charset `' . $charset . '` is not supported by mbstring.' .
+                'Please check it: http://php.net/manual/ru/function.mb-list-encodings.php'
+            );
+        }
+
+        $this->charset = $charset;
+
+        return $this;
+    }
+
+    /**
+     * Set mode to print no header in the table
+     * @return self
+     */
+    public function noHeader()
+    {
+        $this->renderHeader = false;
+
+        return $this;
+    }
+
+    /**
+     * @param int $length
+     * @return self
+     * @throws Exception
+     */
+    public function maxLineLength($length)
+    {
+        if ($length < 3) {
+            throw new \Exception('Minimum length for cropper is 3 sumbols');
+        }
+
+        $this->maxLineLength = $length;
+
+        return $this;
+    }
+
+    /**
+     * Build your ascii table and return the result
+     * @return string
+     */
     public function render()
     {
         if (empty($this->data)) {
@@ -77,27 +214,16 @@ class ArrayToTextTable
         $this->calcColumnsList();
         $this->calcColumnsLength();
 
-        $result = &$this->result;
-
+        /** render section **/
         $this->renderHeader();
-
-        foreach ($this->data as $row) {
-
-            $tmp = '';
-
-            foreach ($this->columnsList as $column) {
-                $tmp .= '| ' . $row[$column] . ' ' . str_repeat(' ', $this->columnsLength[$column] - strlen($row[$column])) . '|';
-            }
-
-            $this->result[] = $tmp;
-        }
-
+        $this->renderBody();
         $this->lineSeparator();
+        /** end render section **/
 
         return str_replace(
             ['++', '||'],
             ['+', '|'],
-            implode(PHP_EOL, $result)
+            implode(PHP_EOL, $this->result)
         );
     }
 }
