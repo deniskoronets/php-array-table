@@ -1,6 +1,6 @@
 <?php
 
-namespace Dekor;
+namespace dekor;
 
 /**
  * @author Denis Koronets
