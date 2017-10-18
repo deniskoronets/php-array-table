@@ -133,7 +133,7 @@ class ArrayToTextTable
     protected function calcColumnsList()
     {
         
-        $this->columnsList = count($this->data) > 1 ? array_keys(reset($this->data)) : array_keys($this->data);
+        $this->columnsList = array_keys(reset($this->data));
     }
     
     /**
