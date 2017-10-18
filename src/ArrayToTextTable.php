@@ -53,7 +53,7 @@ class ArrayToTextTable
      */
     protected function calcColumnsList()
     {
-        $this->columnsList = array_keys($this->data[0]);
+        $this->columnsList = array_keys(reset($this->data));
     }
 
     /**
