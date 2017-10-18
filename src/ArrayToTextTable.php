@@ -2,6 +2,8 @@
 
 namespace dekor;
 
+use function array_keys;
+
 /**
  * @author Denis Koronets
  */
@@ -130,7 +132,8 @@ class ArrayToTextTable
      */
     protected function calcColumnsList()
     {
-        $this->columnsList = array_keys(reset($this->data));
+        
+        $this->columnsList = count($this->data) > 1 ? array_keys(reset($this->data)) : array_keys($this->data);
     }
     
     /**
