@@ -12,7 +12,7 @@ class SimpleTest extends TestCase
      */
     public function testCorrectBuilding($data, $expectResult)
     {
-        $builder = new dekor\ArrayToTextTable($data);
+        $builder = new ArrayToTextTable($data);
 
         $this->assertEquals($expectResult, $builder->render());
     }
