@@ -9,7 +9,7 @@ Simply run composer require:
 <pre>composer require dekor/php-array-table</pre>
 
 or add to composer.json:
-<pre>"dekor/php-array-table": "@dev"</pre>
+<pre>"dekor/php-array-table": "1.0"</pre>
 
 ## Usage
 <pre>&lt;?php
