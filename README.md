@@ -48,3 +48,5 @@ Will draw the next output:
 | 3  | Andrew Sikorsky | php developer  |
 +----+-----------------+----------------+
 </pre>
+
+<b>Made with ❤ by <a href="https://woo.zp.ua">denis</b>
