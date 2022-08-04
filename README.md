@@ -12,8 +12,8 @@ or add to composer.json:
 <pre>"dekor/php-array-table": "1.0"</pre>
 
 ## Usage
-<pre>&lt;?php
 
+```php
 use dekor\ArrayToTextTable;
 
 $data = [
@@ -35,11 +35,11 @@ $data = [
 ];
 
 echo (new ArrayToTextTable($data))->render();
-</pre>
+```
 
 Will draw the next output:
 
-<pre>
+```txt
 +----+-----------------+----------------+
 | id | name            | role           |
 +----+-----------------+----------------+
@@ -47,6 +47,43 @@ Will draw the next output:
 | 2  | Maxim Ambroskin | java developer |
 | 3  | Andrew Sikorsky | php developer  |
 +----+-----------------+----------------+
-</pre>
+```
+
+Numbers can be formatted
+
+```php
+$data = [
+    [
+        'sum' => 10.999,
+    ],
+    [
+        'sum' => 222,
+    ],
+    [
+        'sum' => 7,
+    ],
+    [
+        'sum' => 0,
+    ],
+];
+
+$format = [
+    'padding' => 'left',
+    'number' => '%.2f',
+];
+
+echo (new ArrayToTextTable($data, $format))->render();
+```
+
+```txt
++--------+
+|    sum |
++--------+
+|  11.00 |
+| 222.00 |
+|   7.00 |
+|   0.00 |
++--------+
+```
 
 <b>Made with ❤ by <a href="https://woo.zp.ua">denis</b>
