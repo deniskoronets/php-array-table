@@ -15,11 +15,6 @@ class ArrayToTextTable
     private $data;
 
     /**
-     * @var bool
-     */
-    private $paddingRight = true;
-
-    /**
      * @var array
      */
     private $format;
@@ -57,11 +52,9 @@ class ArrayToTextTable
     public function __construct(array $data, ?array $format = null)
     {
         $this->data = $data;
-        $this->format = $format;
-
-        if ($format && array_key_exists('padding', $format) && $format['padding'] === 'left') {
-            $this->paddingRight = false;
-        }
+        $this->format = $format ?? [
+            'padding' => 'right',
+        ];
     }
 
     /**
@@ -159,7 +152,7 @@ class ArrayToTextTable
      */
     protected function length($value)
     {
-        if ($this->format && array_key_exists('number', $this->format) && (is_int($value) || is_float($value))) {
+        if (array_key_exists('number', $this->format) && (is_int($value) || is_float($value))) {
             $value = sprintf($this->format['number'], $value);
         }
 
@@ -209,11 +202,11 @@ class ArrayToTextTable
      */
     private function column($columnKey, $value)
     {
-        if ($this->format && array_key_exists('number', $this->format) && (is_int($value) || is_float($value))) {
+        if (array_key_exists('number', $this->format) && (is_int($value) || is_float($value))) {
             $value = sprintf($this->format['number'], $value);
         }
 
-        if ($this->paddingRight) {
+        if (array_key_exists('padding', $this->format) && $this->format['padding'] === 'right') {
             return '| ' . $value . ' ' . str_repeat(' ', $this->columnsLength[$columnKey] - $this->length($value)) . '|';
         } else {
             return '| ' . str_repeat(' ', $this->columnsLength[$columnKey] - $this->length($value)) . $value . ' |';
