@@ -23,6 +23,16 @@ class ArrayToTextTable
      * @var int
      */
     private $maxLineLength = 40;
+
+    /**
+     * @var array
+     */
+    private $alignColumns = [];
+
+    /**
+     * @var array
+     */
+    private $formatColumns = [];
     
     /**
      * @var array
@@ -44,7 +54,7 @@ class ArrayToTextTable
      */
     private $renderHeader = true;
     
-    public function __construct(array $data)
+    public function __construct(array $data, array $config = [])
     {
         $this->data = $data;
     }
@@ -99,6 +109,26 @@ class ArrayToTextTable
         
         return $this;
     }
+
+    /**
+     * Allows to align column values in container, left is default
+     * @param array $columns - key/value pairs where key is column name and value is left|right|center
+     * @return void
+     */
+    public function alignColumns(array $columns)
+    {
+        $this->alignColumns = $columns;
+    }
+
+    /**
+     * Allows to apply formatters via sprintf
+     * @param array $columns
+     * @return void
+     */
+    public function formatColumns(array $columns)
+    {
+        $this->formatColumns = $columns;
+    }
     
     /**
      * Build your ascii table and return the result
@@ -132,7 +162,6 @@ class ArrayToTextTable
      */
     protected function calcColumnsList()
     {
-        
         $this->columnsList = array_keys(reset($this->data));
     }
     
