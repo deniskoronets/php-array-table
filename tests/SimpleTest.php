@@ -17,7 +17,7 @@ class SimpleTest extends TestCase
         $this->assertEquals($expectResult, $builder->render());
     }
 
-    public function getCases()
+    public static function getCases()
     {
         return [
             [

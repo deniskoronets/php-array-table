@@ -2,6 +2,7 @@
 
 namespace dekor;
 
+use dekor\formatters\BaseColumnFormatter;
 use function array_keys;
 
 /**
@@ -9,6 +10,12 @@ use function array_keys;
  */
 class ArrayToTextTable
 {
+    const ALLOWED_ALIGN = ['left', 'right', 'center'];
+
+    const H_LINE_CHAR = '-';
+    const V_LINE_CHAR = '|';
+    const INTERSECT_CHAR = '+';
+
     /**
      * @var array
      */
@@ -18,21 +25,11 @@ class ArrayToTextTable
      * @var array
      */
     private $columnsList = [];
-    
-    /**
-     * @var int
-     */
-    private $maxLineLength = 40;
 
     /**
-     * @var array
+     * @var BaseColumnFormatter[]
      */
-    private $alignColumns = [];
-
-    /**
-     * @var array
-     */
-    private $formatColumns = [];
+    private $columnFormatters = [];
     
     /**
      * @var array
@@ -54,9 +51,14 @@ class ArrayToTextTable
      */
     private $renderHeader = true;
     
-    public function __construct(array $data, array $config = [])
+    public function __construct(array $data)
     {
         $this->data = $data;
+    }
+
+    public function applyFormatter(BaseColumnFormatter $formatter)
+    {
+        $this->formatters[] = $formatter;
     }
     
     /**
@@ -112,12 +114,19 @@ class ArrayToTextTable
 
     /**
      * Allows to align column values in container, left is default
-     * @param array $columns - key/value pairs where key is column name and value is left|right|center
+     * @param string $column
+     * @param string|Closure $align - string only allows "left", "right", "center"
      * @return void
+     * @throws ArrayToTextTableException
      */
-    public function alignColumns(array $columns)
+    public function alignColumn($column, $align)
     {
-        $this->alignColumns = $columns;
+        if (is_string($align) && !in_array($align, self::ALLOWED_ALIGN)) {
+            throw new ArrayToTextTableException(
+                'Invalid align for column ' . $column . '. Only allowed left, right, center'
+            );
+        }
+        $this->alignColumns[$column] = $align;
     }
 
     /**
@@ -125,7 +134,7 @@ class ArrayToTextTable
      * @param array $columns
      * @return void
      */
-    public function formatColumns(array $columns)
+    public function formatColumn(array $columns)
     {
         $this->formatColumns = $columns;
     }
@@ -140,7 +149,8 @@ class ArrayToTextTable
         if (empty($this->data)) {
             return 'Empty';
         }
-        
+
+        $this->applyBeforeFormatters();
         $this->calcColumnsList();
         $this->calcColumnsLength();
         
@@ -155,6 +165,21 @@ class ArrayToTextTable
             ['+', '|'],
             implode(PHP_EOL, $this->result)
         );
+    }
+
+    /**
+     * Apply formatters to data before calculating length
+     * @return void
+     */
+    protected function applyBeforeFormatters()
+    {
+        foreach ($this->data as $key => $row) {
+            foreach ($this->data as $columnKey => $value) {
+                foreach ($this->columnFormatters as $formatter) {
+                    $this->data[$key][$columnKey] = $formatter->process($columnKey, $value, true);
+                }
+            }
+        }
     }
     
     /**
@@ -186,6 +211,7 @@ class ArrayToTextTable
             if ($row === '---') {
                 continue;
             }
+
             foreach ($this->columnsList as $column) {
                 $this->columnsLength[$column] = max(
                     isset($this->columnsLength[$column])
@@ -203,13 +229,13 @@ class ArrayToTextTable
      */
     private function lineSeparator()
     {
-        $tmp = '';
+        $tmp = [];
         
         foreach ($this->columnsList as $column) {
-            $tmp .= '+' . str_repeat('-', $this->columnsLength[$column] + 2) . '+';
+            $tmp[] = str_repeat(self::H_LINE_CHAR, $this->columnsLength[$column] + 2);
         }
         
-        $this->result[] = $tmp;
+        $this->result[] = self::INTERSECT_CHAR . implode(self::INTERSECT_CHAR, $tmp) . self::INTERSECT_CHAR;
     }
     
     /**
@@ -220,7 +246,10 @@ class ArrayToTextTable
      */
     private function column($columnKey, $value)
     {
-        return '| ' . $value . ' ' . str_repeat(' ', $this->columnsLength[$columnKey] - $this->length($value)) . '|';
+        return ' ' . $value . ' ' . str_repeat(
+            ' ',
+            $this->columnsLength[$columnKey] - $this->length($value) - 1
+        ) . ' ';
     }
     
     /**
@@ -236,13 +265,13 @@ class ArrayToTextTable
             return;
         }
         
-        $tmp = '';
+        $tmp = [];
         
         foreach ($this->columnsList as $column) {
-            $tmp .= $this->column($column, $column);
+            $tmp[] = $this->column($column, $column);
         }
         
-        $this->result[] = $tmp;
+        $this->result[] = self::V_LINE_CHAR . implode(self::V_LINE_CHAR, $tmp) . self::V_LINE_CHAR;
         
         $this->lineSeparator();
     }
@@ -260,13 +289,19 @@ class ArrayToTextTable
                 continue;
             }
             
-            $tmp = '';
-            
+            $tmp = [];
+
             foreach ($this->columnsList as $column) {
-                $tmp .= $this->column($column, $row[$column]);
+                $value = $this->column($column, $row[$column]);
+
+                foreach ($this->columnFormatters as $formatter) {
+                    $formatter->process($column, $row[$column], false);
+                }
+
+                $tmp[] = $value;
             }
             
-            $this->result[] = $tmp;
+            $this->result[] = self::V_LINE_CHAR . implode(self::V_LINE_CHAR, $tmp) . self::V_LINE_CHAR;
         }
     }
 }
