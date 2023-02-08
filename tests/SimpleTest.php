@@ -1,9 +1,8 @@
 <?php
 
+use dekor\ArrayToTextTableException;
 use PHPUnit\Framework\TestCase;
 use dekor\ArrayToTextTable;
-
-include __DIR__ . '/../src/ArrayToTextTable.php';
 
 class SimpleTest extends TestCase
 {
@@ -99,5 +98,15 @@ class SimpleTest extends TestCase
                     '+----+---------------+-------------------------------+',
             ],
         ];
+    }
+
+    public function testInCorrectDataBuilding()
+    {
+        $data = [['test' => []]];
+
+        $builder = new ArrayToTextTable($data);
+
+        $this->expectException(ArrayToTextTableException::class);
+        $builder->render();
     }
 }

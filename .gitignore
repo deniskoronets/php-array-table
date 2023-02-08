@@ -2,3 +2,4 @@ phpunit.phar
 phpunit
 .phpunit.result.cache
 .idea
+vendor

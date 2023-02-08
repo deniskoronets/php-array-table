@@ -10,8 +10,6 @@ use function array_keys;
  */
 class ArrayToTextTable
 {
-    const ALLOWED_ALIGN = ['left', 'right', 'center'];
-
     const H_LINE_CHAR = '-';
     const V_LINE_CHAR = '|';
     const INTERSECT_CHAR = '+';
@@ -58,7 +56,7 @@ class ArrayToTextTable
 
     public function applyFormatter(BaseColumnFormatter $formatter)
     {
-        $this->formatters[] = $formatter;
+        $this->columnFormatters[] = $formatter;
     }
     
     /**
@@ -96,50 +94,6 @@ class ArrayToTextTable
     }
     
     /**
-     * @param int $length
-     *
-     * @return self
-     * @throws \Exception
-     */
-    public function maxLineLength($length)
-    {
-        if ($length < 3) {
-            throw new \Exception('Minimum length for cropper is 3 sumbols');
-        }
-        
-        $this->maxLineLength = $length;
-        
-        return $this;
-    }
-
-    /**
-     * Allows to align column values in container, left is default
-     * @param string $column
-     * @param string|Closure $align - string only allows "left", "right", "center"
-     * @return void
-     * @throws ArrayToTextTableException
-     */
-    public function alignColumn($column, $align)
-    {
-        if (is_string($align) && !in_array($align, self::ALLOWED_ALIGN)) {
-            throw new ArrayToTextTableException(
-                'Invalid align for column ' . $column . '. Only allowed left, right, center'
-            );
-        }
-        $this->alignColumns[$column] = $align;
-    }
-
-    /**
-     * Allows to apply formatters via sprintf
-     * @param array $columns
-     * @return void
-     */
-    public function formatColumn(array $columns)
-    {
-        $this->formatColumns = $columns;
-    }
-    
-    /**
      * Build your ascii table and return the result
      *
      * @return string
@@ -149,6 +103,8 @@ class ArrayToTextTable
         if (empty($this->data)) {
             return 'Empty';
         }
+
+        $this->validateData();
 
         $this->applyBeforeFormatters();
         $this->calcColumnsList();
@@ -167,6 +123,19 @@ class ArrayToTextTable
         );
     }
 
+    protected function validateData()
+    {
+        foreach ($this->data as $row) {
+            foreach ($row as $column) {
+                if (!is_scalar($column)) {
+                    throw new ArrayToTextTableException(
+                        'Tried to render invalid data: ' . print_r($column, 1) . '. Only scalars allowed'
+                    );
+                }
+            }
+        }
+    }
+
     /**
      * Apply formatters to data before calculating length
      * @return void
@@ -174,7 +143,7 @@ class ArrayToTextTable
     protected function applyBeforeFormatters()
     {
         foreach ($this->data as $key => $row) {
-            foreach ($this->data as $columnKey => $value) {
+            foreach ($row as $columnKey => $value) {
                 foreach ($this->columnFormatters as $formatter) {
                     $this->data[$key][$columnKey] = $formatter->process($columnKey, $value, true);
                 }
@@ -246,9 +215,9 @@ class ArrayToTextTable
      */
     private function column($columnKey, $value)
     {
-        return ' ' . $value . ' ' . str_repeat(
+        return ' ' . $value . str_repeat(
             ' ',
-            $this->columnsLength[$columnKey] - $this->length($value) - 1
+            $this->columnsLength[$columnKey] - $this->length($value)
         ) . ' ';
     }
     
@@ -295,7 +264,7 @@ class ArrayToTextTable
                 $value = $this->column($column, $row[$column]);
 
                 foreach ($this->columnFormatters as $formatter) {
-                    $formatter->process($column, $row[$column], false);
+                    $value = $formatter->process($column, $value, false);
                 }
 
                 $tmp[] = $value;

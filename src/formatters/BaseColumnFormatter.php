@@ -33,18 +33,25 @@ abstract class BaseColumnFormatter
             return $value;
         }
 
-        if ($isBefore) {
-            return $this->applyBefore($value, $this->config[$columnName]);
+        $formatterValue = $this->config[$columnName];
+
+        // compute formatter value in case we accepted closure
+        if (is_callable($this->config[$columnName])) {
+            $formatterValue = call_user_func($formatterValue, $value);
         }
 
-        return $this->applyAfter($value, $this->config[$columnName]);
+        if ($isBefore) {
+            return $this->applyBefore($value, $formatterValue);
+        }
+
+        return $this->applyAfter($value, $formatterValue);
     }
 
     /**
      * Allows to apply some formatting to column value before calculating columns length.
      * Just return $value in case you don't want to do anything with the column at this stage
      * @param $value
-     * @param string|Closure $formatterValue
+     * @param string $formatterValue
      * @return string
      */
     abstract protected function applyBefore($value, $formatterValue);
@@ -53,7 +60,7 @@ abstract class BaseColumnFormatter
      * Allows to apply some formatting to column value after adding spaces to column value
      * Just return $value in case you don't want to do anything with the column at this stage
      * @param $value
-     * @param string|\Closure $formatterValue
+     * @param string $formatterValue
      * @return string
      */
     abstract protected function applyAfter($value, $formatterValue);
