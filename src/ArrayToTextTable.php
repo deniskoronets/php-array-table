@@ -2,6 +2,7 @@
 
 namespace dekor;
 
+use dekor\formatters\BaseColumnFormatter;
 use function array_keys;
 
 /**
@@ -9,6 +10,10 @@ use function array_keys;
  */
 class ArrayToTextTable
 {
+    const H_LINE_CHAR = '-';
+    const V_LINE_CHAR = '|';
+    const INTERSECT_CHAR = '+';
+
     /**
      * @var array
      */
@@ -18,11 +23,11 @@ class ArrayToTextTable
      * @var array
      */
     private $columnsList = [];
-    
+
     /**
-     * @var int
+     * @var BaseColumnFormatter[]
      */
-    private $maxLineLength = 40;
+    private $columnFormatters = [];
     
     /**
      * @var array
@@ -47,6 +52,11 @@ class ArrayToTextTable
     public function __construct(array $data)
     {
         $this->data = $data;
+    }
+
+    public function applyFormatter(BaseColumnFormatter $formatter)
+    {
+        $this->columnFormatters[] = $formatter;
     }
     
     /**
@@ -84,23 +94,6 @@ class ArrayToTextTable
     }
     
     /**
-     * @param int $length
-     *
-     * @return self
-     * @throws \Exception
-     */
-    public function maxLineLength($length)
-    {
-        if ($length < 3) {
-            throw new \Exception('Minimum length for cropper is 3 sumbols');
-        }
-        
-        $this->maxLineLength = $length;
-        
-        return $this;
-    }
-    
-    /**
      * Build your ascii table and return the result
      *
      * @return string
@@ -110,7 +103,10 @@ class ArrayToTextTable
         if (empty($this->data)) {
             return 'Empty';
         }
-        
+
+        $this->validateData();
+
+        $this->applyBeforeFormatters();
         $this->calcColumnsList();
         $this->calcColumnsLength();
         
@@ -126,13 +122,40 @@ class ArrayToTextTable
             implode(PHP_EOL, $this->result)
         );
     }
+
+    protected function validateData()
+    {
+        foreach ($this->data as $row) {
+            foreach ($row as $column) {
+                if (!is_scalar($column)) {
+                    throw new ArrayToTextTableException(
+                        'Tried to render invalid data: ' . print_r($column, 1) . '. Only scalars allowed'
+                    );
+                }
+            }
+        }
+    }
+
+    /**
+     * Apply formatters to data before calculating length
+     * @return void
+     */
+    protected function applyBeforeFormatters()
+    {
+        foreach ($this->data as $key => $row) {
+            foreach ($row as $columnKey => $value) {
+                foreach ($this->columnFormatters as $formatter) {
+                    $this->data[$key][$columnKey] = $formatter->process($columnKey, $value, true);
+                }
+            }
+        }
+    }
     
     /**
      * Calculates list of columns in data
      */
     protected function calcColumnsList()
     {
-        
         $this->columnsList = array_keys(reset($this->data));
     }
     
@@ -157,6 +180,7 @@ class ArrayToTextTable
             if ($row === '---') {
                 continue;
             }
+
             foreach ($this->columnsList as $column) {
                 $this->columnsLength[$column] = max(
                     isset($this->columnsLength[$column])
@@ -174,13 +198,13 @@ class ArrayToTextTable
      */
     private function lineSeparator()
     {
-        $tmp = '';
+        $tmp = [];
         
         foreach ($this->columnsList as $column) {
-            $tmp .= '+' . str_repeat('-', $this->columnsLength[$column] + 2) . '+';
+            $tmp[] = str_repeat(self::H_LINE_CHAR, $this->columnsLength[$column] + 2);
         }
         
-        $this->result[] = $tmp;
+        $this->result[] = self::INTERSECT_CHAR . implode(self::INTERSECT_CHAR, $tmp) . self::INTERSECT_CHAR;
     }
     
     /**
@@ -191,7 +215,10 @@ class ArrayToTextTable
      */
     private function column($columnKey, $value)
     {
-        return '| ' . $value . ' ' . str_repeat(' ', $this->columnsLength[$columnKey] - $this->length($value)) . '|';
+        return ' ' . $value . str_repeat(
+            ' ',
+            $this->columnsLength[$columnKey] - $this->length($value)
+        ) . ' ';
     }
     
     /**
@@ -207,13 +234,13 @@ class ArrayToTextTable
             return;
         }
         
-        $tmp = '';
+        $tmp = [];
         
         foreach ($this->columnsList as $column) {
-            $tmp .= $this->column($column, $column);
+            $tmp[] = $this->column($column, $column);
         }
         
-        $this->result[] = $tmp;
+        $this->result[] = self::V_LINE_CHAR . implode(self::V_LINE_CHAR, $tmp) . self::V_LINE_CHAR;
         
         $this->lineSeparator();
     }
@@ -231,13 +258,19 @@ class ArrayToTextTable
                 continue;
             }
             
-            $tmp = '';
-            
+            $tmp = [];
+
             foreach ($this->columnsList as $column) {
-                $tmp .= $this->column($column, $row[$column]);
+                $value = $this->column($column, $row[$column]);
+
+                foreach ($this->columnFormatters as $formatter) {
+                    $value = $formatter->process($column, $value, false);
+                }
+
+                $tmp[] = $value;
             }
             
-            $this->result[] = $tmp;
+            $this->result[] = self::V_LINE_CHAR . implode(self::V_LINE_CHAR, $tmp) . self::V_LINE_CHAR;
         }
     }
 }
