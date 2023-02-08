@@ -13,7 +13,6 @@ or add to composer.json:
 
 ## Usage
 <pre>&lt;?php
-
 use dekor\ArrayToTextTable;
 
 $data = [
@@ -51,10 +50,14 @@ Will draw the next output:
 
 ## Formatters (since v2)
 New feature introduces way to pre and postprocess column data by applying some filters.
-List of such out of the box:
+You're able to develop your own formatters simply extending `BaseColumnFormatter` and implementing abstract methods.
+List of formatters out of the box:
 - `AlignFormatter` - allows to set text align for inner column (useful for numbers):
 
 <pre>&lt;?php
+use dekor\ArrayToTextTable;
+use dekor\formatters\AlignFormatter;
+
 $data = [
     [
         'left' => 2,
@@ -86,6 +89,9 @@ outputs:
 
 - `SprintfFormatter` - allows to format column value before rendering using sprintf function (ex: %01.3f)
 <pre>&lt;?php
+use dekor\ArrayToTextTable;
+use dekor\formatters\SprintfFormatter;
+
 $data = [
     [
         'left' => 1,
@@ -109,8 +115,18 @@ outputs:
 
 - `ColorFormatter` - allows to highlight text with specific color (only works in terminal):
 <pre>&lt;?php
+use dekor\ArrayToTextTable;
+use dekor\formatters\ColorFormatter;
 
+$data = [
+    ['test' => 1],
+    ['test' => -1],
+];
 
+$builder = new ArrayToTextTable($data);
+$builder->applyFormatter(new ColorFormatter(['test' => fn ($value) => $value > 0 ? 'Red' : 'Green']));
+
+echo $builder->render() . PHP_EOL;
 </pre>
 outputs:
 
