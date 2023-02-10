@@ -1,8 +1,7 @@
 # PHP Array To Text Table
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/deniskoronets/php-array-table/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/deniskoronets/php-array-table/?branch=master) [![Build Status](https://scrutinizer-ci.com/g/deniskoronets/php-array-table/badges/build.png?b=master)](https://scrutinizer-ci.com/g/deniskoronets/php-array-table/build-status/master)
-
 PHP-class, which allows to transform php associative arrays to cool ASCII tables.
+
+![Blue](https://placehold.co/15x15/005BBB/005BBB.png)![Yellow](https://placehold.co/15x15/FFD500/FFD500.png) [Ukraine ❤](https://woo.zp.ua/en/support-ukraine/)
 
 ## Installation
 Simply run composer require:
