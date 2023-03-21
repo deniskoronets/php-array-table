@@ -4,9 +4,9 @@
 [![downloads](https://poser.pugx.org/dekor/php-array-table/downloads)](https://packagist.org/packages/dekor/php-array-table)
 [![min php version](https://poser.pugx.org/dekor/php-array-table/require/php)](https://packagist.org/packages/dekor/php-array-table)
 [![license](https://poser.pugx.org/dekor/php-array-table/license)](https://packagist.org/packages/dekor/php-array-table)
-[![tests](https://github.com/dekor/php-array-table/actions/workflows/tests.yml/badge.svg)](https://github.com/dekor/php-array-table/actions/workflows/tests.yml)
-![code coverage badge](https://raw.githubusercontent.com/dekor/php-array-table/image-data/coverage.svg)
-![lines of code](https://raw.githubusercontent.com/dekor/php-array-table/image-data/lines.svg)
+[![tests](https://github.com/deniskoronets/php-array-table/actions/workflows/tests.yml/badge.svg)](https://github.com/deniskoronets/php-array-table/actions/workflows/tests.yml)
+![code coverage badge](https://raw.githubusercontent.com/deniskoronets/php-array-table/image-data/coverage.svg)
+![lines of code](https://raw.githubusercontent.com/deniskoronets/php-array-table/image-data/lines.svg)
 
 PHP-class, which allows to transform php associative arrays to cool ASCII tables.
 
@@ -58,8 +58,11 @@ Will draw the next output:
 </pre>
 
 ## Formatters (since v2)
-New feature introduces way to pre and postprocess column data by applying some filters.
-You're able to develop your own formatters simply extending `BaseColumnFormatter` and implementing abstract methods.
+
+Version 2 introduces a new feature that allows to pre and postprocess column data by applying filters.
+
+You're able to develop your own formatters by extending `BaseColumnFormatter` and implementing abstract methods.
+
 List of formatters out of the box:
 - `AlignFormatter` - allows to set text align for inner column (useful for numbers):
 
