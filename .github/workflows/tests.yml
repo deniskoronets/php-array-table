@@ -1,0 +1,86 @@
+name: tests
+
+on:
+  push:
+    paths:
+      - 'src/**'
+
+env:
+  COMPOSER_ROOT_VERSION: 1.99
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [5.6, 8.2]
+
+        dependencies:
+          - "highest"
+
+    name: P${{ matrix.php-version }} - ${{ matrix.dependencies }}
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v3
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@2.24.0
+        with:
+          php-version: "${{ matrix.php-version }}"
+          extensions: xdebug
+          ini-values: zend.assertions=1
+
+      - name: Get composer cache directory
+        id: composercache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composercache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ matrix.dependencies }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-php-${{ matrix.php-version }}-${{ matrix.dependencies }}-composer-
+
+      - name: Install lowest dependencies
+        if: ${{ matrix.dependencies == 'lowest' }}
+        run: composer update --no-interaction --no-progress --prefer-lowest
+
+      - name: Install highest dependencies
+        if: ${{ matrix.dependencies == 'highest' }}
+        run: composer update --no-interaction --no-progress
+
+      - name: Run tests
+        timeout-minutes: 3
+        run: vendor/bin/phpunit --coverage-clover clover.xml
+
+      - name: Get lines of code (more sophisticated)
+        id: scc
+        uses: iryanbell/scc-docker-action@v1.0.2
+        with:
+          args: ${{ env.workspace }} -i php --exclude-dir vendor --format json src
+
+      - name: Make lines of code badge
+        uses: emibcn/badge-action@v2.0.2
+        with:
+          label: Lines of Code
+          status: ${{ fromJson(steps.scc.outputs.scc)[0].Code }}
+          color: 'blue'
+          path: .github/lines.svg
+
+      - name: Make code coverage badge
+        uses: timkrase/phpunit-coverage-badge@v1.2.1
+        with:
+          coverage_badge_path: .github/coverage.svg
+          # push badge later on
+          push_badge: false
+
+      - name: Git push badges to image-data branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: .github
+          publish_branch: image-data
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
