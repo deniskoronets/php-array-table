@@ -1,4 +1,13 @@
 # PHP Array To Text Table
+
+[![packagist](https://poser.pugx.org/dekor/php-array-table/v)](https://packagist.org/packages/dekor/php-array-table)
+[![downloads](https://poser.pugx.org/dekor/php-array-table/downloads)](https://packagist.org/packages/dekor/php-array-table)
+[![min php version](https://poser.pugx.org/dekor/php-array-table/require/php)](https://packagist.org/packages/dekor/php-array-table)
+[![license](https://poser.pugx.org/dekor/php-array-table/license)](https://packagist.org/packages/dekor/php-array-table)
+[![tests](https://github.com/dekor/php-array-table/actions/workflows/tests.yml/badge.svg)](https://github.com/dekor/php-array-table/actions/workflows/tests.yml)
+![code coverage badge](https://raw.githubusercontent.com/dekor/php-array-table/image-data/coverage.svg)
+![lines of code](https://raw.githubusercontent.com/dekor/php-array-table/image-data/lines.svg)
+
 PHP-class, which allows to transform php associative arrays to cool ASCII tables.
 
 ![Blue](https://placehold.co/15x15/005BBB/005BBB.png)![Yellow](https://placehold.co/15x15/FFD500/FFD500.png) [Ukraine ❤](https://woo.zp.ua/en/support-ukraine/)
