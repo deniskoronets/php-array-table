@@ -35,7 +35,7 @@ class ColorFormatter extends BaseColumnFormatter
 
     protected function applyAfter($value, $formatterValue)
     {
-        if ($formatterValue == 'Default') {
+        if ($formatterValue === 'Default') {
             return $value;
         }
 

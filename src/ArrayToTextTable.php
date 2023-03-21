@@ -73,7 +73,7 @@ class ArrayToTextTable
      */
     public function charset($charset)
     {
-        if (!in_array($charset, mb_list_encodings())) {
+        if (!in_array($charset, mb_list_encodings(), true)) {
             throw new \Exception(
                 'This charset `' . $charset . '` is not supported by mbstring.' .
                 'Please check it: http://php.net/manual/ru/function.mb-list-encodings.php'

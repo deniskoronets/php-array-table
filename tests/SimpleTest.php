@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers dekor\ArrayToTextTable
  */
-class SimpleTest extends TestCase
+final class SimpleTest extends TestCase
 {
     /**
      * @dataProvider getCases
@@ -21,7 +21,7 @@ class SimpleTest extends TestCase
     {
         $builder = new ArrayToTextTable($data);
 
-        $this->assertEquals($expectResult, $builder->render());
+        static::assertSame($expectResult, $builder->render());
     }
 
     public static function getCases()
