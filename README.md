@@ -11,7 +11,8 @@ or add to composer.json:
 <pre>"dekor/php-array-table": "^2.0"</pre>
 
 ## Usage
-<pre>&lt;?php
+
+```php
 use dekor\ArrayToTextTable;
 
 $data = [
@@ -33,7 +34,7 @@ $data = [
 ];
 
 echo (new ArrayToTextTable($data))->render();
-</pre>
+```
 
 Will draw the next output:
 
@@ -53,7 +54,7 @@ You're able to develop your own formatters simply extending `BaseColumnFormatter
 List of formatters out of the box:
 - `AlignFormatter` - allows to set text align for inner column (useful for numbers):
 
-<pre>&lt;?php
+```php
 use dekor\ArrayToTextTable;
 use dekor\formatters\AlignFormatter;
 
@@ -74,7 +75,7 @@ $builder = new ArrayToTextTable($data);
 $builder->applyFormatter(new AlignFormatter(['center' => 'center', 'right' => 'right']));
 
 echo $builder->render();
-</pre>
+```
 
 outputs:
 <pre>
@@ -87,7 +88,7 @@ outputs:
 </pre>
 
 - `SprintfFormatter` - allows to format column value before rendering using sprintf function (ex: %01.3f)
-<pre>&lt;?php
+```php
 use dekor\ArrayToTextTable;
 use dekor\formatters\SprintfFormatter;
 
@@ -102,7 +103,8 @@ $builder = new ArrayToTextTable($data);
 $builder->applyFormatter(new SprintfFormatter(['left' => '%01.3f', 'right' => '%03.3f']));
 
 echo $builder->render();
-</pre>
+```
+
 outputs:
 <pre>
 +-------+-------+
@@ -113,7 +115,7 @@ outputs:
 </pre>
 
 - `ColorFormatter` - allows to highlight text with specific color (only works in terminal):
-<pre>&lt;?php
+```php
 use dekor\ArrayToTextTable;
 use dekor\formatters\ColorFormatter;
 
@@ -126,7 +128,8 @@ $builder = new ArrayToTextTable($data);
 $builder->applyFormatter(new ColorFormatter(['test' => fn ($value) => $value > 0 ? 'Red' : 'Green']));
 
 echo $builder->render() . PHP_EOL;
-</pre>
+```
+
 outputs:
 
 ![img.png](img.png)
