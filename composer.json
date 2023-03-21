@@ -24,5 +24,8 @@
         "psr-4" : {
             "dekor\\" : "src"
         }
+    },
+    "scripts": {
+        "test": "phpunit --coverage-html=coverage"
     }
 }
