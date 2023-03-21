@@ -2,5 +2,7 @@ composer.lock
 phpunit.phar
 phpunit
 .phpunit.result.cache
+coverage/
 .idea
 vendor
+.php-cs-fixer.cache

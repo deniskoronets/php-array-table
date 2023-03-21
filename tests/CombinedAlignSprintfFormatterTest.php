@@ -1,15 +1,23 @@
 <?php
 
+use dekor\ArrayToTextTable;
 use dekor\ArrayToTextTableException;
 use dekor\formatters\AlignFormatter;
 use dekor\formatters\SprintfFormatter;
 use PHPUnit\Framework\TestCase;
-use dekor\ArrayToTextTable;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class CombinedAlignSprintfFormatterTest extends TestCase
 {
     /**
      * @dataProvider getCases
+     *
+     * @param mixed $data
+     * @param mixed $expectResult
      */
     public function testCorrectBuilding($data, $expectResult)
     {
@@ -49,7 +57,6 @@ class CombinedAlignSprintfFormatterTest extends TestCase
                     '| 2    |                Dummy one                 | 14.330 |' . PHP_EOL .
                     '| 3    | Another great day for a great inventors! |  1.000 |' . PHP_EOL .
                     '+------+------------------------------------------+--------+',
-
             ],
         ];
     }

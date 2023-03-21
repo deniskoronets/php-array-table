@@ -2,8 +2,6 @@
 
 namespace dekor\formatters;
 
-use dekor\ArrayToTextTableException;
-
 class SprintfFormatter extends BaseColumnFormatter
 {
     protected function applyBefore($value, $formatterValue)
