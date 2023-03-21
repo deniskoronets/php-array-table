@@ -6,7 +6,7 @@ use dekor\ArrayToTextTableException;
 
 class ColorFormatter extends BaseColumnFormatter
 {
-    public const DEFAULT_COLOR = '0m';
+    const DEFAULT_COLOR = '0m';
     public $colors = [
         'Default' => self::DEFAULT_COLOR,
 

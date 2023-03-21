@@ -11,9 +11,9 @@ use function array_keys;
  */
 class ArrayToTextTable
 {
-    public const H_LINE_CHAR = '-';
-    public const V_LINE_CHAR = '|';
-    public const INTERSECT_CHAR = '+';
+    const H_LINE_CHAR = '-';
+    const V_LINE_CHAR = '|';
+    const INTERSECT_CHAR = '+';
 
     /**
      * @var array
