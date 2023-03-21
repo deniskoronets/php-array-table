@@ -31,6 +31,7 @@ if (isset($GLOBALS['argv']) && in_array('--allow-risky=yes', $GLOBALS['argv'], t
     $fixer
         ->setRules([
             '@PhpCsFixer:risky' => true,
+            'native_function_invocation' => false,
         ]);
 }
 
