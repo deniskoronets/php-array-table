@@ -7,6 +7,10 @@
      stopOnIncomplete="false"
      stopOnSkipped="false"
      bootstrap="vendor/autoload.php"
+  displayDetailsOnTestsThatTriggerDeprecations="true"
+  displayDetailsOnTestsThatTriggerNotices="true"
+  displayDetailsOnTestsThatTriggerWarnings="true"
+  displayDetailsOnTestsThatTriggerErrors="true"
 >
     <testsuites>
         <testsuite name="AllTests">
