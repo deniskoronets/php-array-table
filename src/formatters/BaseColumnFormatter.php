@@ -9,7 +9,7 @@ namespace dekor\formatters;
 abstract class BaseColumnFormatter
 {
     /**
-     * @var string[]|\Closure[] $config - key/value pair where key is column name to process and value is Closure or scalar value
+     * @var \Closure[]|string[] $config - key/value pair where key is column name to process and value is Closure or scalar value
      */
     protected $config;
 
@@ -24,7 +24,8 @@ abstract class BaseColumnFormatter
     /**
      * @param string $columnName
      * @param string $value
-     * @param bool $isBefore
+     * @param bool   $isBefore
+     *
      * @return string
      */
     public function process($columnName, $value, $isBefore)
@@ -50,8 +51,10 @@ abstract class BaseColumnFormatter
     /**
      * Allows to apply some formatting to column value before calculating columns length.
      * Just return $value in case you don't want to do anything with the column at this stage
+     *
      * @param $value
      * @param string $formatterValue
+     *
      * @return string
      */
     abstract protected function applyBefore($value, $formatterValue);
@@ -59,8 +62,10 @@ abstract class BaseColumnFormatter
     /**
      * Allows to apply some formatting to column value after adding spaces to column value
      * Just return $value in case you don't want to do anything with the column at this stage
+     *
      * @param $value
      * @param string $formatterValue
+     *
      * @return string
      */
     abstract protected function applyAfter($value, $formatterValue);

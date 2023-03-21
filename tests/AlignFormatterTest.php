@@ -1,14 +1,22 @@
 <?php
 
+use dekor\ArrayToTextTable;
 use dekor\ArrayToTextTableException;
 use dekor\formatters\AlignFormatter;
 use PHPUnit\Framework\TestCase;
-use dekor\ArrayToTextTable;
 
+/**
+ * @internal
+ *
+ * @covers dekor\formatters\AlignFormatter
+ */
 class AlignFormatterTest extends TestCase
 {
     /**
      * @dataProvider getCases
+     *
+     * @param mixed $data
+     * @param mixed $expectResult
      */
     public function testCorrectBuilding($data, $expectResult)
     {

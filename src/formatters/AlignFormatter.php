@@ -6,7 +6,7 @@ use dekor\ArrayToTextTableException;
 
 class AlignFormatter extends BaseColumnFormatter
 {
-    const ALLOWED_ALIGN = ['left', 'right', 'center'];
+    public const ALLOWED_ALIGN = ['left', 'right', 'center'];
 
     protected function applyBefore($value, $formatterValue)
     {
@@ -14,6 +14,9 @@ class AlignFormatter extends BaseColumnFormatter
     }
 
     /**
+     * @param mixed $value
+     * @param mixed $formatterValue
+     *
      * @throws ArrayToTextTableException
      */
     protected function applyAfter($value, $formatterValue)
@@ -32,10 +35,11 @@ class AlignFormatter extends BaseColumnFormatter
         switch ($formatterValue) {
             case 'center':
                 $halfDelta = ($length - $trimLength) / 2;
+
                 return str_repeat(' ', floor($halfDelta)) . $value . str_repeat(' ', ceil($halfDelta));
 
             case 'right':
-                return str_repeat(' ', $length - $trimLength - 1). $value . ' ';
+                return str_repeat(' ', $length - $trimLength - 1) . $value . ' ';
         }
 
         return $value;
