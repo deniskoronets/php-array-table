@@ -58,8 +58,11 @@ Will draw the next output:
 </pre>
 
 ## Formatters (since v2)
-New feature introduces way to pre and postprocess column data by applying some filters.
-You're able to develop your own formatters simply extending `BaseColumnFormatter` and implementing abstract methods.
+
+Version 2 introduces a new feature that allows to pre and postprocess column data by applying filters.
+
+You're able to develop your own formatters by extending `BaseColumnFormatter` and implementing abstract methods.
+
 List of formatters out of the box:
 - `AlignFormatter` - allows to set text align for inner column (useful for numbers):
 
