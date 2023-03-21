@@ -4,9 +4,9 @@
 [![downloads](https://poser.pugx.org/dekor/php-array-table/downloads)](https://packagist.org/packages/dekor/php-array-table)
 [![min php version](https://poser.pugx.org/dekor/php-array-table/require/php)](https://packagist.org/packages/dekor/php-array-table)
 [![license](https://poser.pugx.org/dekor/php-array-table/license)](https://packagist.org/packages/dekor/php-array-table)
-[![tests](https://github.com/dekor/php-array-table/actions/workflows/tests.yml/badge.svg)](https://github.com/dekor/php-array-table/actions/workflows/tests.yml)
-![code coverage badge](https://raw.githubusercontent.com/dekor/php-array-table/image-data/coverage.svg)
-![lines of code](https://raw.githubusercontent.com/dekor/php-array-table/image-data/lines.svg)
+[![tests](https://github.com/deniskoronets/php-array-table/actions/workflows/tests.yml/badge.svg)](https://github.com/deniskoronets/php-array-table/actions/workflows/tests.yml)
+![code coverage badge](https://raw.githubusercontent.com/deniskoronets/php-array-table/image-data/coverage.svg)
+![lines of code](https://raw.githubusercontent.com/deniskoronets/php-array-table/image-data/lines.svg)
 
 PHP-class, which allows to transform php associative arrays to cool ASCII tables.
 
