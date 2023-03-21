@@ -57,6 +57,8 @@ class ArrayToTextTable
     public function applyFormatter(BaseColumnFormatter $formatter)
     {
         $this->columnFormatters[] = $formatter;
+
+        return $this;
     }
     
     /**
