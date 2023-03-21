@@ -4,3 +4,4 @@ phpunit
 coverage/
 .idea
 vendor
+.php-cs-fixer.cache
