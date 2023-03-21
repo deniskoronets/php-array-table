@@ -1,13 +1,21 @@
 <?php
 
+use dekor\ArrayToTextTable;
 use dekor\ArrayToTextTableException;
 use PHPUnit\Framework\TestCase;
-use dekor\ArrayToTextTable;
 
+/**
+ * @internal
+ *
+ * @covers dekor\ArrayToTextTable
+ */
 class SimpleTest extends TestCase
 {
     /**
      * @dataProvider getCases
+     *
+     * @param mixed $data
+     * @param mixed $expectResult
      */
     public function testCorrectBuilding($data, $expectResult)
     {
@@ -35,7 +43,7 @@ class SimpleTest extends TestCase
                         'id' => 3,
                         'name' => 'Andrew Sikorsky',
                         'role' => 'php developer',
-                    ]
+                    ],
                 ],
                 'expected' =>
                     '+----+-----------------+----------------+' . PHP_EOL .

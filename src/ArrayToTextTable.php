@@ -3,6 +3,7 @@
 namespace dekor;
 
 use dekor\formatters\BaseColumnFormatter;
+
 use function array_keys;
 
 /**
@@ -10,15 +11,15 @@ use function array_keys;
  */
 class ArrayToTextTable
 {
-    const H_LINE_CHAR = '-';
-    const V_LINE_CHAR = '|';
-    const INTERSECT_CHAR = '+';
+    public const H_LINE_CHAR = '-';
+    public const V_LINE_CHAR = '|';
+    public const INTERSECT_CHAR = '+';
 
     /**
      * @var array
      */
     private $data;
-    
+
     /**
      * @var array
      */
@@ -28,27 +29,27 @@ class ArrayToTextTable
      * @var BaseColumnFormatter[]
      */
     private $columnFormatters = [];
-    
+
     /**
      * @var array
      */
     private $columnsLength = [];
-    
+
     /**
      * @var array
      */
     private $result = [];
-    
+
     /**
      * @var string
      */
     private $charset = 'UTF-8';
-    
+
     /**
      * @var bool
      */
     private $renderHeader = true;
-    
+
     public function __construct(array $data)
     {
         $this->data = $data;
@@ -60,13 +61,14 @@ class ArrayToTextTable
 
         return $this;
     }
-    
+
     /**
      * Set custom charset for columns values
      *
      * @param $charset
      *
      * @return \dekor\ArrayToTextTable
+     *
      * @throws \Exception
      */
     public function charset($charset)
@@ -77,12 +79,12 @@ class ArrayToTextTable
                 'Please check it: http://php.net/manual/ru/function.mb-list-encodings.php'
             );
         }
-        
+
         $this->charset = $charset;
-        
+
         return $this;
     }
-    
+
     /**
      * Set mode to print no header in the table
      *
@@ -91,10 +93,10 @@ class ArrayToTextTable
     public function noHeader()
     {
         $this->renderHeader = false;
-        
+
         return $this;
     }
-    
+
     /**
      * Build your ascii table and return the result
      *
@@ -111,13 +113,13 @@ class ArrayToTextTable
         $this->applyBeforeFormatters();
         $this->calcColumnsList();
         $this->calcColumnsLength();
-        
-        /** render section **/
+
+        // render section
         $this->renderHeader();
         $this->renderBody();
         $this->lineSeparator();
-        /** end render section **/
-        
+        // end render section
+
         return str_replace(
             ['++', '||'],
             ['+', '|'],
@@ -140,6 +142,7 @@ class ArrayToTextTable
 
     /**
      * Apply formatters to data before calculating length
+     *
      * @return void
      */
     protected function applyBeforeFormatters()
@@ -152,7 +155,7 @@ class ArrayToTextTable
             }
         }
     }
-    
+
     /**
      * Calculates list of columns in data
      */
@@ -160,7 +163,7 @@ class ArrayToTextTable
     {
         $this->columnsList = array_keys(reset($this->data));
     }
-    
+
     /**
      * Calculates length for string
      *
@@ -172,7 +175,7 @@ class ArrayToTextTable
     {
         return mb_strlen($str, $this->charset);
     }
-    
+
     /**
      * Calculate maximum string length for each column
      */
@@ -194,21 +197,21 @@ class ArrayToTextTable
             }
         }
     }
-    
+
     /**
      * Append a line separator to result
      */
     private function lineSeparator()
     {
         $tmp = [];
-        
+
         foreach ($this->columnsList as $column) {
             $tmp[] = str_repeat(self::H_LINE_CHAR, $this->columnsLength[$column] + 2);
         }
-        
+
         $this->result[] = self::INTERSECT_CHAR . implode(self::INTERSECT_CHAR, $tmp) . self::INTERSECT_CHAR;
     }
-    
+
     /**
      * @param $columnKey
      * @param $value
@@ -222,7 +225,7 @@ class ArrayToTextTable
             $this->columnsLength[$columnKey] - $this->length($value)
         ) . ' ';
     }
-    
+
     /**
      * Render header part
      *
@@ -231,22 +234,22 @@ class ArrayToTextTable
     private function renderHeader()
     {
         $this->lineSeparator();
-        
+
         if (!$this->renderHeader) {
             return;
         }
-        
+
         $tmp = [];
-        
+
         foreach ($this->columnsList as $column) {
             $tmp[] = $this->column($column, $column);
         }
-        
+
         $this->result[] = self::V_LINE_CHAR . implode(self::V_LINE_CHAR, $tmp) . self::V_LINE_CHAR;
-        
+
         $this->lineSeparator();
     }
-    
+
     /**
      * Render body section of table
      *
@@ -257,9 +260,10 @@ class ArrayToTextTable
         foreach ($this->data as $row) {
             if ($row === '---') {
                 $this->lineSeparator();
+
                 continue;
             }
-            
+
             $tmp = [];
 
             foreach ($this->columnsList as $column) {
@@ -271,7 +275,7 @@ class ArrayToTextTable
 
                 $tmp[] = $value;
             }
-            
+
             $this->result[] = self::V_LINE_CHAR . implode(self::V_LINE_CHAR, $tmp) . self::V_LINE_CHAR;
         }
     }
