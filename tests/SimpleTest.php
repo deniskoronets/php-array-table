@@ -105,6 +105,21 @@ class SimpleTest extends TestCase
                     '| 2  | Артем Малеев  | Тест кириллических символов 2 |' . PHP_EOL .
                     '+----+---------------+-------------------------------+',
             ],
+            [
+                'data' => [
+                    ['test' => 1],
+                    ['test' => -1],
+                    ['test' => null],
+                ],
+                'expected' =>
+                    '+------+' . PHP_EOL .
+                    '| test |' . PHP_EOL .
+                    '+------+' . PHP_EOL .
+                    '| 1    |' . PHP_EOL .
+                    '| -1   |' . PHP_EOL .
+                    '| NULL |' . PHP_EOL .
+                    '+------+',
+            ],
         ];
     }
 

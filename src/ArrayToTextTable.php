@@ -129,9 +129,14 @@ class ArrayToTextTable
 
     protected function validateData()
     {
-        foreach ($this->data as $row) {
-            foreach ($row as $column) {
+        foreach ($this->data as &$row) {
+            foreach ($row as &$column) {
                 if (!is_scalar($column)) {
+                    if (is_null($column)) {
+                        $column = 'NULL';
+                        continue;
+                    }
+
                     throw new ArrayToTextTableException(
                         'Tried to render invalid data: ' . print_r($column, 1) . '. Only scalars allowed'
                     );
