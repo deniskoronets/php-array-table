@@ -22,7 +22,11 @@ class ColorTest extends TestCase
     public function testCorrectBuilding($data, $expectResult)
     {
         $builder = new ArrayToTextTable($data);
-        $builder->applyFormatter(new ColorFormatter(['test' => fn ($value) => $value > 0 ? 'Red' : 'Green']));
+        $builder->applyFormatter(new ColorFormatter([
+            'test' => function ($value) {
+                return $value > 0 ? 'Red' : 'Green';
+            }
+        ]));
 
         $this->assertEquals($expectResult, $builder->render());
     }

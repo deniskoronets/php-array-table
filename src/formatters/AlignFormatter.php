@@ -6,7 +6,7 @@ use dekor\ArrayToTextTableException;
 
 class AlignFormatter extends BaseColumnFormatter
 {
-    public const ALLOWED_ALIGN = ['left', 'right', 'center'];
+    const ALLOWED_ALIGN = ['left', 'right', 'center'];
 
     protected function applyBefore($value, $formatterValue)
     {
