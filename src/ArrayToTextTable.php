@@ -138,7 +138,7 @@ class ArrayToTextTable
                     }
 
                     throw new ArrayToTextTableException(
-                        'Tried to render invalid data: ' . print_r($column, 1) . '. Only scalars allowed'
+                        'Tried to render invalid data: ' . var_export($column, 1) . '. Only scalars allowed'
                     );
                 }
             }
