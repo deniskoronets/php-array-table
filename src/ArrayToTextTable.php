@@ -135,6 +135,8 @@ class ArrayToTextTable
                     if (is_null($column)) {
                         $column = 'NULL';
                         continue;
+                    } elseif (is_object($column) && method_exists($column, '__toString')) {
+                        continue;
                     }
 
                     throw new ArrayToTextTableException(
