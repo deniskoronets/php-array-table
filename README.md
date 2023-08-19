@@ -165,4 +165,4 @@ Allowed colors list (see `ColorFormatter::$colors`)
 - White
 
 ### Creds:
-<b>Made with ❤ by <a href="https://woo.zp.ua">Denys</b>
+<b>Made with ❤ by <a href="https://woo.zp.ua">Denys</b> (lead dev in <a href="https://mobicard.com.ua/</a>
