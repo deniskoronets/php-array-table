@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers dekor\formatters\ColorFormatter
  */
-class ColorTest extends TestCase
+final class ColorTest extends TestCase
 {
     /**
      * @dataProvider getCases
@@ -28,7 +28,7 @@ class ColorTest extends TestCase
             }
         ]));
 
-        $this->assertEquals($expectResult, $builder->render());
+        static::assertSame($expectResult, $builder->render());
     }
 
     public static function getCases()

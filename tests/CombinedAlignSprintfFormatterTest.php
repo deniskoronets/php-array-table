@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @coversNothing
  */
-class CombinedAlignSprintfFormatterTest extends TestCase
+final class CombinedAlignSprintfFormatterTest extends TestCase
 {
     /**
      * @dataProvider getCases
@@ -25,7 +25,7 @@ class CombinedAlignSprintfFormatterTest extends TestCase
         $builder->applyFormatter(new AlignFormatter(['center' => 'center', 'right' => 'right']));
         $builder->applyFormatter(new SprintfFormatter(['right' => '%01.3f']));
 
-        $this->assertEquals($expectResult, $builder->render());
+        static::assertSame($expectResult, $builder->render());
     }
 
     public static function getCases()

@@ -21,7 +21,7 @@ class AlignFormatter extends BaseColumnFormatter
      */
     protected function applyAfter($value, $formatterValue)
     {
-        if (!in_array($formatterValue, self::ALLOWED_ALIGN)) {
+        if (!in_array($formatterValue, self::ALLOWED_ALIGN, true)) {
             throw new ArrayToTextTableException(
                 'Invalid align. Only allowed: ' . implode(', ', self::ALLOWED_ALIGN)
             );

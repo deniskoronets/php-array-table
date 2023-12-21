@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @covers dekor\formatters\AlignFormatter
  */
-class AlignFormatterTest extends TestCase
+final class AlignFormatterTest extends TestCase
 {
     /**
      * @dataProvider getCases
@@ -23,7 +23,7 @@ class AlignFormatterTest extends TestCase
         $builder = new ArrayToTextTable($data);
         $builder->applyFormatter(new AlignFormatter(['center' => 'center', 'right' => 'right']));
 
-        $this->assertEquals($expectResult, $builder->render());
+        static::assertSame($expectResult, $builder->render());
     }
 
     public static function getCases()
