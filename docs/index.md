@@ -10,6 +10,9 @@ Simply run composer require:
 or add to composer.json:
 <pre>"dekor/php-array-table": "^2.0"</pre>
 
+or try out using it in a sandbox:
+https://play.phpsandbox.io/dekor/php-array-table/6WdN1pkx8NK43yOV
+
 ## Usage
 
 ```php
