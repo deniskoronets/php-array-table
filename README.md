@@ -164,6 +164,8 @@ Allowed colors list (see `ColorFormatter::$colors`)
 - Light Grey
 - White
 
-### Creds:
-<b>Made with ❤ by <a href="https://woo.zp.ua">Denys</b> 
-(sponsored by: <a href="https://mobicard.com.ua/">mobicard</a>, <a href="https://busyb.com.ua/">busyb</a>)
+## Our sponsors list:
+<a href="https://mobicard.com.ua/"><img src="https://mobicard.com.ua/favicon.svg" width="32"></a> 
+<a href="https://busyb.com.ua/"><img src="https://busyb.com.ua/favicon.svg" width="32"></a>
+<a href="https://woo.zp.ua/"><img src="https://woo.zp.ua/wp-content/uploads/2024/02/cropped-Woo-192x192.png" width="32"></a>
+<a href="https://pc-info.com.ua/"><img src="https://pc-info.com.ua/favicon.svg" width="32"></a>
