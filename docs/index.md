@@ -163,3 +163,4 @@ Allowed colors list (see `ColorFormatter::$colors`)
 <a href="https://busyb.com.ua/"><img src="https://busyb.com.ua/favicon.svg" width="32"></a>
 <a href="https://woo.zp.ua/"><img src="https://woo.zp.ua/wp-content/uploads/2024/02/cropped-Woo-192x192.png" width="32"></a>
 <a href="https://pc-info.com.ua/"><img src="https://pc-info.com.ua/favicon.svg" width="32"></a>
+<a href="https://linktrust.com.ua/"><img src="https://linktrust.com.ua/linktrust.svg" width="32"></a>
