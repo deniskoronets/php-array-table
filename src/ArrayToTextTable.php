@@ -130,6 +130,10 @@ class ArrayToTextTable
     protected function validateData()
     {
         foreach ($this->data as &$row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
             foreach ($row as &$column) {
                 if (!is_scalar($column)) {
                     if (is_null($column)) {
@@ -155,6 +159,10 @@ class ArrayToTextTable
     protected function applyBeforeFormatters()
     {
         foreach ($this->data as $key => $row) {
+            if (!is_array($row)) {
+                continue;
+            }
+
             foreach ($row as $columnKey => $value) {
                 foreach ($this->columnFormatters as $formatter) {
                     $this->data[$key][$columnKey] = $formatter->process($columnKey, $value, true);
