@@ -15,13 +15,13 @@ class SimpleTest extends TestCase
      * @dataProvider getCases
      *
      * @param mixed $data
-     * @param mixed $expectResult
+     * @param mixed $expected
      */
-    public function testCorrectBuilding($data, $expectResult)
+    public function testCorrectBuilding($data, $expected)
     {
         $builder = new ArrayToTextTable($data);
 
-        $this->assertEquals($expectResult, $builder->render());
+        $this->assertEquals($expected, $builder->render());
     }
 
     public static function getCases()
