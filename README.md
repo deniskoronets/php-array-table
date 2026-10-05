@@ -167,9 +167,15 @@ Allowed colors list (see `ColorFormatter::$colors`)
 - Light Grey
 - White
 
-## Our sponsors list:
-<a href="https://mobicard.com.ua/"><img src="https://mobicard.com.ua/favicon.svg" width="32"></a> 
-<a href="https://busyb.com.ua/"><img src="https://busyb.com.ua/favicon.svg" width="32"></a>
-<a href="https://woo.zp.ua/"><img src="https://woo.zp.ua/wp-content/uploads/2024/02/cropped-Woo-192x192.png" width="32"></a>
-<a href="https://pc-info.com.ua/"><img src="https://pc-info.com.ua/favicon.svg" width="32"></a>
-<a href="https://linktrust.pro/"><img src="https://linktrust.pro/linktrust.svg" width="32"></a>
+## Our sponsors
+
+<a href="https://mobicard.com.ua/" title="Mobicard"><img src="https://mobicard.com.ua/favicon.svg" width="32" alt="Mobicard"></a>
+<a href="https://busyb.com.ua/" title="BusyB"><img src="https://busyb.com.ua/favicon.svg" width="32" alt="BusyB"></a>
+<a href="https://pc-info.com.ua/" title="PC-Info"><img src="https://pc-info.com.ua/favicon.svg" width="32" alt="PC-Info"></a>
+<a href="https://linktrust.pro/" title="LinkTrust"><img src="https://linktrust.pro/linktrust.svg" width="32" alt="LinkTrust"></a>
+
+## Author
+Created and maintained by **[Denys Koronets](https://github.com/deniskoronets/)**.
+
+## Have a project? Hire me!
+Feel free to contact me, see links in github profile
