@@ -10,8 +10,6 @@
 
 PHP-class, which allows to transform php associative arrays to cool ASCII tables.
 
-![Blue](https://placehold.co/15x15/005BBB/005BBB.png)![Yellow](https://placehold.co/15x15/FFD500/FFD500.png) [Ukraine ❤](https://woo.zp.ua/en/support-ukraine/)
-
 # Quick doc:
 https://deniskoronets.github.io/php-array-table/
 
