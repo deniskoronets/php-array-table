@@ -170,7 +170,7 @@ Allowed colors list (see `ColorFormatter::$colors`)
 <a href="https://linktrust.pro/" title="LinkTrust"><img src="https://linktrust.pro/linktrust.svg" width="32" alt="LinkTrust"></a>
 
 ## Author
-Created and maintained by **[Denys Koronets CV](https://deniskoronets.com)** (**[Github](https://github.com/deniskoronets/)**)
+Created and maintained by **[Denys Koronets](https://deniskoronets.com)** (**[Github](https://github.com/deniskoronets/)**)
 
 ## Have a project? Hire me!
 Feel free to contact me, see links in github profile
